@@ -65,5 +65,13 @@ group by hour(time)
 ) as a;
 
 -- Determine the top 3 most ordered pizza types based on revenue
-select pt.name 
+select pt.name as pizza_name, sum(od.quantity * p.price) as rev
+from pizza_types as pt
+inner join pizzas as p on pt.pizza_type_id = p.pizza_type_id
+inner join order_details as od on od.pizza_id = p.pizza_id
+group by pt.name
+order by rev desc
+limit 3;
+
+
 
