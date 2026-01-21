@@ -1,10 +1,13 @@
 -- Use schema
 use project;
 
+-- 1. Data Exploration
 select * from order_details;
 select * from orders;
 select * from pizza_types;
 select * from pizzas;
+
+-- 2. Exploratory Analysis
 
 -- Retrieve total number of Orders placed
 select count(distinct order_id) as order_count 
@@ -43,6 +46,8 @@ inner join order_details as od
 on od.pizza_id = p.pizza_id
 group by p.size;
 
+-- 3. Sales Analysis - Crunching the Numbers
+
 -- List the top 5 most ordered pizza types with along with their quantities
 select pt.name as pizza_name, sum(od.quantity) as quantity
 from pizza_types as pt
@@ -72,6 +77,8 @@ inner join order_details as od on od.pizza_id = p.pizza_id
 group by pt.name
 order by rev desc
 limit 3;
+
+-- 4. Operational Insights 
 
 -- Calculate the percentage contribution of each pizza type to total revenue
 select pt.category, 
@@ -113,6 +120,8 @@ inner join order_details
 on order_details.pizza_id = pizzas.pizza_id
 group by pizza_types.category, pizza_types.name) as a) as b)
 where rn <= 3;
+
+-- 5. Category wise analysis
 
 -- Join the necessary tables to find the total quantity of each pizza category ordered
 select pizza_types.category, sum(order_details.quantity) as quantity
