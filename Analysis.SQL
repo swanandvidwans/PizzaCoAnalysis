@@ -125,4 +125,16 @@ group by pizza_types.category
 order by order_details.quantity desc;
 
 
--- 
+-- Join relevant tables to find the category-wise distribution of pizzas.
+select category, count(name) 
+from pizza_types
+group by category;
+
+-- Group the orders by the date and calculate the average number of pizzas ordered per day
+select round(avg(quantity),2)
+from
+(select orders.order_date, sum(order_details.quantity) as quantity
+from orders
+inner join order_details
+on order_details.order_id = orders.order_id
+group by orders.order_date) as order_quantity;
